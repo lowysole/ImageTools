@@ -82,7 +82,7 @@
 //---- Define constructor and implicit cast operators to convert back<>forth between your math types and ImVec2/ImVec4.
 // This will be inlined as part of ImVec2 and ImVec4 class declarations.
 
-#include "Resources/Math/float2.h"
+#include "float2.h"
 #define IM_VEC2_CLASS_EXTRA                                                 \
         ImVec2(const float2& f) { x = f.x; y = f.y; }                       \
         operator float2() const { return float2(x,y); }
