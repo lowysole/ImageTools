@@ -4,9 +4,11 @@
 #include "Application.h"
 #include "Modules/ModuleWindow.h"
 #include "Modules/ModuleRender.h"
+#include "Panels/PanelResource/PanelResource.h"
 
 #include "GL/glew.h"
 #include "SDL.h"
+#include "float2.h"
 #include "imgui_internal.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
@@ -40,9 +42,8 @@ bool ModuleEditor::Init() {
 	// Set Panels
 	panels.push_back(&panelAbout);
 	panels.push_back(&panelOperations);
-	panels.push_back(&panelResource);
-	panels.push_back(&panelResult);
 	panels.push_back(&panelConsole);
+	panels.push_back(&panelResource);
 
 	return true;
 }
@@ -65,16 +66,11 @@ UpdateStatus ModuleEditor::PreUpdate() {
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
-	//ImGuiViewport* viewport = ImGui::GetMainViewport();
-	//if (viewport->WorkSize.x != workSize.x || viewport->WorkSize.y != workSize.y) {
-	//	isResized = true;
-	//}
-
 	return UpdateStatus::CONTINUE;
 }
 
 UpdateStatus ModuleEditor::Update() {
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	// Main Menu bar
 	ImGui::BeginMainMenuBar();
@@ -87,8 +83,18 @@ UpdateStatus ModuleEditor::Update() {
 
 	if (ImGui::BeginMenu("Windows")) {
 		ImGui::MenuItem(panelOperations.GetName(), "", &panelOperations.UpdateEnabled());
-		ImGui::MenuItem(panelResult.GetName(), "", &panelResult.UpdateEnabled());
 		ImGui::MenuItem(panelConsole.GetName(), "", &panelConsole.UpdateEnabled());
+		ImGui::EndMenu();
+	}
+
+	if (ImGui::BeginMenu("Actions")) {
+		if (ImGui::MenuItem("Add Image")) {
+			CreatePanelResource(PanelResourceType::IMAGE);
+		}
+
+		if (ImGui::MenuItem("Add Compare Image")) {
+			CreatePanelResource(PanelResourceType::COMPARE_IMAGE);
+		}
 		ImGui::EndMenu();
 	}
 
@@ -124,8 +130,40 @@ UpdateStatus ModuleEditor::Update() {
 		ImGui::EndPopup();
 	}
 
+	// Docking
+	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
+
+	if (!ImGui::DockBuilderGetNode(dockSpaceId)) {
+		ImGui::DockBuilderAddNode(dockSpaceId);
+		ImGui::DockBuilderSetNodeSize(dockSpaceId, viewport->WorkSize);
+
+		dockMainId = dockSpaceId;
+		//dockUpId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_Up, 0.2f, nullptr, &dockMainId);
+		//ImGui::DockBuilderSetNodeSize(dockUpId, ImVec2(viewport->WorkSize.x, 40));
+		//dockLeftId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_None, 0.25f, nullptr, &dockMainId);
+		dockRightId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_Right, 0.2f, nullptr, &dockMainId);
+		dockDownId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_Down, 0.3f, nullptr, &dockMainId);
+		
+	}
+
+	ImGui::SetNextWindowPos(viewport->WorkPos);
+	ImGui::SetNextWindowSize(viewport->WorkSize);
+
+	ImGuiWindowFlags dockSpaceWindowFlags = 0;
+	dockSpaceWindowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDocking;
+	dockSpaceWindowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DockSpace", nullptr, dockSpaceWindowFlags);
+	ImGui::PopStyleVar(3);
+	ImGui::DockSpace(dockSpaceId);
+	ImGui::End();
+
 	for (Panel* panel : panels) {
-		if (panel->GetEnabled()) panel->Update();
+		if (panel->GetEnabled()) panel->DrawPanel();
 	}
 
 	return UpdateStatus::CONTINUE;
@@ -140,13 +178,6 @@ UpdateStatus ModuleEditor::PostUpdate() {
 	ImGui::UpdatePlatformWindows();
 	ImGui::RenderPlatformWindowsDefault();
 	SDL_GL_MakeCurrent(App->window->window, App->render->context);
-
-	//if (isResized) {
-	//	ImGuiViewport* viewport = ImGui::GetMainViewport();
-	//	isResized = false;
-	//	workSize.x = viewport->WorkSize.x;
-	//	workSize.y = viewport->WorkSize.y;
-	//}
 
 	return UpdateStatus::CONTINUE;
 }
@@ -169,16 +200,21 @@ ImVec2 ModuleEditor::GetWorkSize() const {
 	return workSize;
 }
 
+void ModuleEditor::CreatePanelResource(PanelResourceType resourceType) {
+
+	Panel* newPanel = new PanelResource("<empty>", resourceType);
+	panels.push_back(newPanel);
+}
+
 void ModuleEditor::SetImGuiTheme() {
 	//Font
 	ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->AddFontFromFileTTF("Resources/Fonts/Gravity_Book.otf", 18.0f);
+	io.Fonts->AddFontFromFileTTF("data/fonts/Gravity_Book.otf", 18.0f);
 	ImFontConfig iconsConfig;
 	iconsConfig.MergeMode = true;
 	iconsConfig.PixelSnapH = true;
-	io.Fonts->AddFontFromFileTTF("Resources/Fonts/" FONT_ICON_FILE_NAME_FAS, 12.0f, &iconsConfig, iconsRangesFa);
-	io.Fonts->AddFontFromFileTTF("Resources/Fonts/" FONT_ICON_FILE_NAME_FK, 12.0f, &iconsConfig, iconsRangesFk);
-
+	io.Fonts->AddFontFromFileTTF("data/fonts/" FONT_ICON_FILE_NAME_FAS, 12.0f, &iconsConfig, iconsRangesFa);
+	io.Fonts->AddFontFromFileTTF("data/fonts/" FONT_ICON_FILE_NAME_FK, 12.0f, &iconsConfig, iconsRangesFk);
 
 	// Colors
 	ImVec4* colors = ImGui::GetStyle().Colors;

@@ -1,15 +1,14 @@
 #include "Panel.h"
 
 #include "imgui.h"
+#include "float2.h"
 
-Panel::Panel(const char* _name, bool _enabled, float2 _pos, float2 _size)
+Panel::Panel(const char* _name, bool _enabled)
 	: name {_name}
-	, enabled {_enabled}
-	, pos {_pos}
-	, size {_size} {
+	, enabled {_enabled} {
 }
 
-void Panel::Update() {}
+void Panel::DrawPanel() {}
 
 bool& Panel::UpdateEnabled() {
 	return enabled;
@@ -21,12 +20,4 @@ const char* Panel::GetName() const {
 
 bool Panel::GetEnabled() const {
 	return enabled;
-}
-
-float2 Panel::GetPos() const {
-	return pos;
-}
-
-float2 Panel::GetSize() const {
-	return size;
 }

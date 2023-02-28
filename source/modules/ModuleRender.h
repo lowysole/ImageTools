@@ -2,7 +2,7 @@
 
 #include "Modules/Module.h"
 
-#include "Resources/Math/float2.h"
+#include "float2.h"
 
 class ModuleRender : public Module {
 public:

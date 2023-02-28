@@ -27,14 +27,4 @@ void Logger::UpdateLogString() {
 	logMessageQueueMutex.unlock();
 }
 
-void Logger::LogDeltaMS(float deltaMs) {
-	float fps = 1000.0f / deltaMs;
-	fpsLogIndex -= 1;
-	if (fpsLogIndex < 0) {
-		fpsLogIndex = FPS_LOG_SIZE - 1;
-	}
-	fpsLog[fpsLogIndex] = fps;
-	msLog[fpsLogIndex] = deltaMs;
-}
-
 Logger* logger = nullptr;

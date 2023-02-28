@@ -6,6 +6,7 @@
 
 #include "SDL.h"
 #include "GL/glew.h"
+#include "float2.h"
 
 #include "Utils/Leaks.h"
 

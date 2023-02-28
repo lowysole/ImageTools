@@ -4,18 +4,20 @@
 
 #include "Panels/Panel.h"
 #include "Panels/PanelAbout.h"
-#include "Panels/PanelOperations.h"
-#include "Panels/PanelResource.h"
-#include "Panels/PanelResult.h"
+#include "Panels/PanelOptions.h"
 #include "Panels/PanelConsole.h"
+#include "Panels/PanelResource/PanelResource.h"
 
 #include "imgui.h"
 #include <vector>
+
+class float2;
 
 enum class Modal {
 	NONE,
 	QUIT
 };
+
 
 class ModuleEditor : public Module {
 public:
@@ -29,14 +31,22 @@ public:
 	bool GetIsResized() const;
 	ImVec2 GetWorkSize() const;
 
+	void CreatePanelResource(PanelResourceType resourceType);
+
 public:
+	// ---------- Docking ----------
+	unsigned dockMainId = 0;
+	//unsigned dockUpId = 0;
+	unsigned dockLeftId = 0;
+	unsigned dockRightId = 0;
+	unsigned dockDownId = 0;
+
 	// Panels
 	std::vector<Panel*> panels;
 	PanelAbout panelAbout;
-	PanelOperations panelOperations;
-	PanelResource panelResource;
-	PanelResult panelResult;
+	PanelOptions panelOperations;
 	PanelConsole panelConsole;
+	PanelResource panelResource;
 
 	// ImGui parameters
 	const ImVec4 titleColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -48,6 +58,6 @@ private:
 	Modal modalToOpen = Modal::NONE;
 
 	bool isResized = false;
-	ImVec2 workPos = ImVec2(0.0f, 0.0f);
-	ImVec2 workSize = ImVec2(0.0f, 0.0f);
+	float2 workPos = float2::zero;
+	float2 workSize = float2::zero;
 };

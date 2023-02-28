@@ -17,9 +17,9 @@ PanelConsole::PanelConsole()
 	: Panel("Console", true) {
 }
 
-void PanelConsole::Update() {
+void PanelConsole::DrawPanel() {
 	logger->UpdateLogString();
-
+	ImGui::SetNextWindowDockID(App->editor->dockDownId, ImGuiCond_FirstUseEver);
 	std::string windowName = std::string(ICON_FK_TERMINAL "  ") + GetName();
 	if (ImGui::Begin(windowName.c_str(), &UpdateEnabled())) {
 		// Output
@@ -31,6 +31,7 @@ void PanelConsole::Update() {
 			ImGui::EndPopup();
 		}
 
+		ImGui::Text(logger->logString.c_str());
 		if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) {
 			ImGui::SetScrollHereY(1.0f);
 		}

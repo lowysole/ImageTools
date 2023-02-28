@@ -7,5 +7,5 @@ public:
 
 	PanelAbout();
 
-	void Update() override;
+	void DrawPanel() override;
 };

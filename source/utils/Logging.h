@@ -15,14 +15,10 @@
 class Logger {
 public:
 	void Log(const char file[], int line, const char* format, ...);
-	void LogDeltaMS(float deltaMs);
 	void UpdateLogString();
 
 public:
 	std::string logString = "";
-	int fpsLogIndex = FPS_LOG_SIZE - 1;
-	float fpsLog[FPS_LOG_SIZE] = {0};
-	float msLog[FPS_LOG_SIZE] = {0};
 
 private:
 	std::mutex logMessageQueueMutex;

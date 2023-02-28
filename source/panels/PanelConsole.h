@@ -6,5 +6,5 @@ class PanelConsole : public Panel {
 public:
 	PanelConsole();
 
-	void Update() override;
+	void DrawPanel() override;
 };

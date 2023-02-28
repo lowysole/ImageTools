@@ -27,7 +27,7 @@ UpdateStatus ModuleInput::PreUpdate() {
 
 	ImGuiIO& io = ImGui::GetIO();
 
-	mouseMotion = {0, 0};
+	mouseMotion = float2::zero;
 	mouseWheelMotion = 0;
 
 	int windowId = SDL_GetWindowID(App->window->window);

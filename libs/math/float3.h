@@ -102,12 +102,6 @@ inline float3& float3::operator/=(const float scalar) {
 	return *this;
 }
 
-const float3 float3::zero = float3(0, 0, 0);
-const float3 float3::one = float3(1, 1, 1);
-const float3 float3::unitX = float3(1, 0, 0);
-const float3 float3::unitY = float3(0, 1, 0);
-const float3 float3::unitZ = float3(0, 0, 1);
-
 inline std::ostream& operator<<(std::ostream& out, const float3& v) {
 	out << "x: " << v.x << ", y: " << v.z << ", z: " << v.z;
 
