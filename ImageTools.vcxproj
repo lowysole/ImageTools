@@ -29,11 +29,9 @@
     <ClCompile Include="libs\imgui\imgui_widgets.cpp" />
     <ClCompile Include="libs\math\float2.cpp" />
     <ClCompile Include="libs\math\float3.cpp" />
-    <ClCompile Include="source\Panels\PanelResource\PanelResource.cpp" />
+    <ClCompile Include="source\Panels\PanelResource.cpp" />
     <ClCompile Include="source\Resources\Resource.cpp" />
-    <ClCompile Include="source\Panels\PanelResource\PanelCompare.cpp" />
-    <ClCompile Include="source\Panels\PanelResource\PanelImage.cpp" />
-    <ClCompile Include="source\Panels\PanelOptions.cpp" />
+    <ClCompile Include="source\Panels\PanelInspector.cpp" />
     <ClCompile Include="source\Panels\PanelConsole.cpp" />
     <ClCompile Include="source\Panels\PanelAbout.cpp" />
     <ClCompile Include="source\Panels\Panel.cpp" />
@@ -149,11 +147,9 @@
     <ClInclude Include="libs\SDL\include\SDL_version.h" />
     <ClInclude Include="libs\SDL\include\SDL_video.h" />
     <ClInclude Include="libs\SDL\include\SDL_vulkan.h" />
-    <ClInclude Include="source\Panels\PanelResource\PanelResource.h" />
+    <ClInclude Include="source\Panels\PanelResource.h" />
     <ClInclude Include="source\Resources\Resource.h" />
-    <ClInclude Include="source\Panels\PanelResource\PanelCompare.h" />
-    <ClInclude Include="source\Panels\PanelResource\PanelImage.h" />
-    <ClInclude Include="source\Panels\PanelOptions.h" />
+    <ClInclude Include="source\Panels\PanelInspector.h" />
     <ClInclude Include="source\Panels\PanelConsole.h" />
     <ClInclude Include="source\Panels\PanelAbout.h" />
     <ClInclude Include="source\Panels\Panel.h" />
@@ -170,11 +166,18 @@
     <ClInclude Include="source\Utils\FileSystem.h" />
     <ClInclude Include="source\Utils\Leaks.h" />
     <ClInclude Include="source\Utils\Logging.h" />
+    <ClInclude Include="source\Utils\portable-file-dialogs.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />
+    <None Include=".gitignore" />
     <None Include="glew32.dll" />
     <None Include="imgui.ini" />
+    <None Include="LICENSE" />
+    <None Include="opencv_core470.dll" />
+    <None Include="opencv_imgcodecs470.dll" />
+    <None Include="opencv_imgproc470.dll" />
+    <None Include="README.md" />
     <None Include="SDL2.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -217,14 +220,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -283,6 +286,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470.lib;opencv_imgcodecs470.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AssemblyDebug>
+      </AssemblyDebug>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -304,6 +309,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470.lib;opencv_imgcodecs470.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AssemblyDebug>
+      </AssemblyDebug>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -314,12 +321,15 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)/Source\;$(ProjectDir)/Libs\imgui\;$(ProjectDir)/Libs\glew-2.1.0\include\;$(ProjectDir)/Libs\SDL\include\;$(ProjectDir)/Libs\math\;$(ProjectDir)/Libs\openCV\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470.lib;opencv_imgcodecs470.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AssemblyDebug>
+      </AssemblyDebug>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -332,6 +342,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)/Source\;$(ProjectDir)/Libs\imgui\;$(ProjectDir)/Libs\glew-2.1.0\include\;$(ProjectDir)/Libs\SDL\include\;$(ProjectDir)/Libs\math\;$(ProjectDir)/Libs\openCV\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -340,6 +351,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470.lib;opencv_imgcodecs470.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AssemblyDebug>
+      </AssemblyDebug>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

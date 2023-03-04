@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Panels/Panel.h"
-#include "Resources/Resource.h"
+
+class Resource;
 
 enum class PanelResourceType {
 	NONE,
@@ -16,18 +17,23 @@ public:
 	PanelResource();
 	PanelResource(const char* _resourceName, PanelResourceType _panelResourceType);
 
-	virtual void DrawPanel();
+	void DrawPanel();
 
-	const char* GetPanelName();
-	void SetPanelName();
-
-	Resource* GetResource();
+	Resource* GetResource() const;
 	void SetResource(Resource* resource);
+
+	PanelResourceType GetPanelResourceType() const;
 
 private:
 
-	const char* panelName = nullptr;
+	void DrawPanelDefault();
+	void DrawPanelImage();
+	void DrawPanelCompare();
+	void DrawImageTable(const char* name);
+
+private:
 	PanelResourceType panelResourceType;
 
 	Resource* resource = nullptr;
+	bool hasResource = false;
 };

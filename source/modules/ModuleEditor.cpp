@@ -4,7 +4,7 @@
 #include "Application.h"
 #include "Modules/ModuleWindow.h"
 #include "Modules/ModuleRender.h"
-#include "Panels/PanelResource/PanelResource.h"
+#include "Panels/PanelResource.h"
 
 #include "GL/glew.h"
 #include "SDL.h"
@@ -41,9 +41,12 @@ bool ModuleEditor::Init() {
 
 	// Set Panels
 	panels.push_back(&panelAbout);
-	panels.push_back(&panelOperations);
+	panels.push_back(&panelInspector);
 	panels.push_back(&panelConsole);
 	panels.push_back(&panelResource);
+
+	// Default PanelResource Selected
+	panelInspector.SetPanelResourceSelected(&panelResource);
 
 	return true;
 }
@@ -70,7 +73,7 @@ UpdateStatus ModuleEditor::PreUpdate() {
 }
 
 UpdateStatus ModuleEditor::Update() {
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 
 	// Main Menu bar
 	ImGui::BeginMainMenuBar();
@@ -82,7 +85,7 @@ UpdateStatus ModuleEditor::Update() {
 	}
 
 	if (ImGui::BeginMenu("Windows")) {
-		ImGui::MenuItem(panelOperations.GetName(), "", &panelOperations.UpdateEnabled());
+		ImGui::MenuItem(panelInspector.GetName(), "", &panelInspector.UpdateEnabled());
 		ImGui::MenuItem(panelConsole.GetName(), "", &panelConsole.UpdateEnabled());
 		ImGui::EndMenu();
 	}
@@ -115,7 +118,7 @@ UpdateStatus ModuleEditor::Update() {
 
 	// Quit Modal
 	ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiCond_FirstUseEver);
-	if (ImGui::BeginPopupModal("Quit", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar)) {
+	if (ImGui::BeginPopupModal("Quit##quit", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar)) {
 		ImGui::Text("Do you really want to quit?");
 		ImGui::NewLine();
 		ImGui::NewLine();
@@ -131,6 +134,7 @@ UpdateStatus ModuleEditor::Update() {
 	}
 
 	// Docking
+	ImGui::PushID("dockSpace");
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
 	ImGuiID dockSpaceId = ImGui::GetID("DockSpace");
 
@@ -139,12 +143,9 @@ UpdateStatus ModuleEditor::Update() {
 		ImGui::DockBuilderSetNodeSize(dockSpaceId, viewport->WorkSize);
 
 		dockMainId = dockSpaceId;
-		//dockUpId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_Up, 0.2f, nullptr, &dockMainId);
-		//ImGui::DockBuilderSetNodeSize(dockUpId, ImVec2(viewport->WorkSize.x, 40));
-		//dockLeftId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_None, 0.25f, nullptr, &dockMainId);
+
 		dockRightId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_Right, 0.2f, nullptr, &dockMainId);
 		dockDownId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_Down, 0.3f, nullptr, &dockMainId);
-		
 	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);
@@ -161,9 +162,26 @@ UpdateStatus ModuleEditor::Update() {
 	ImGui::PopStyleVar(3);
 	ImGui::DockSpace(dockSpaceId);
 	ImGui::End();
+	ImGui::PopID();
 
 	for (Panel* panel : panels) {
 		if (panel->GetEnabled()) panel->DrawPanel();
+	}
+
+	for (int i = panelsResource.size() - 1; i >= 0; i--) {
+		Panel* panel = panelsResource.at(i);
+		if (panel->GetEnabled()) {
+			panel->DrawPanel();
+		} else {
+			RELEASE(panel);
+			panelsResource.erase(panelsResource.begin() + i);
+		}
+	}
+
+	if (panelsResource.size() == 0) {
+		panelResource.SetEnabled(true);
+	} else {
+		panelResource.SetEnabled(false);
 	}
 
 	return UpdateStatus::CONTINUE;
@@ -201,9 +219,16 @@ ImVec2 ModuleEditor::GetWorkSize() const {
 }
 
 void ModuleEditor::CreatePanelResource(PanelResourceType resourceType) {
-
-	Panel* newPanel = new PanelResource("<empty>", resourceType);
-	panels.push_back(newPanel);
+	char name[25];
+	if (resourceType == PanelResourceType::IMAGE) {
+		sprintf_s(name, "<empty_%d>", panelsResource.size() + 1);
+		panelsResource.push_back(new PanelResource(name, resourceType));
+	}	
+	else if (resourceType == PanelResourceType::COMPARE_IMAGE) {
+		sprintf_s(name, "Compare_%d", panelsResource.size() + 1);
+		panelsResource.push_back(new PanelResource(name, resourceType));
+	}
+		
 }
 
 void ModuleEditor::SetImGuiTheme() {

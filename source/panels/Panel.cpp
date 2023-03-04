@@ -10,14 +10,22 @@ Panel::Panel(const char* _name, bool _enabled)
 
 void Panel::DrawPanel() {}
 
+const char* Panel::GetName() const {
+	return name.c_str();
+}
+
+void Panel::SetName(const char* _name) {
+	name = _name;
+}
+
 bool& Panel::UpdateEnabled() {
 	return enabled;
 }
 
-const char* Panel::GetName() const {
-	return name;
-}
-
 bool Panel::GetEnabled() const {
 	return enabled;
+}
+
+void Panel::SetEnabled(bool _enabled) {
+	enabled = _enabled;
 }

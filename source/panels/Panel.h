@@ -1,6 +1,6 @@
 #pragma once
 
-#include "float2.h"
+#include <string>
 
 class Panel {
 public:
@@ -8,11 +8,15 @@ public:
 
 	virtual void DrawPanel();
 
-	bool& UpdateEnabled();
+	
 	const char* GetName() const;
+	void SetName(const char* _name);
+
+	bool& UpdateEnabled();
 	bool GetEnabled() const;
+	void SetEnabled(bool _enabled);
 
 private:
-	const char* name;
+	std::string name;
 	bool enabled;
 };

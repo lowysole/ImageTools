@@ -2,21 +2,27 @@
 
 
 #include "opencv2/core/mat.hpp"
+#include "Panels/PanelResource.h"
+
+#include <string>
 
 class Resource {
 
 
 public:
-	
-	const char* GetResourceName();
+
+	Resource(PanelResource* _panelResource);
+
+	bool ReadImage(const char* filePath);
+
+	const char* GetResourceFilePath() const;
+	const char* GetResourceName() const;
 	cv::Mat* GetResourceData();
 
 private:
-	bool ReadImage(const char* filePath);
-
-private:
-	const char* filePath = nullptr;
-	const char* resourceName = nullptr;
+	std::string filePath = "";
+	std::string resourceName = "";
 	cv::Mat resourceData;
+	PanelResource* panelResource;
 
 };

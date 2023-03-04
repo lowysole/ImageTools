@@ -4,9 +4,9 @@
 
 #include "Panels/Panel.h"
 #include "Panels/PanelAbout.h"
-#include "Panels/PanelOptions.h"
+#include "Panels/PanelInspector.h"
 #include "Panels/PanelConsole.h"
-#include "Panels/PanelResource/PanelResource.h"
+#include "Panels/PanelResource.h"
 
 #include "imgui.h"
 #include <vector>
@@ -36,17 +36,18 @@ public:
 public:
 	// ---------- Docking ----------
 	unsigned dockMainId = 0;
-	//unsigned dockUpId = 0;
-	unsigned dockLeftId = 0;
 	unsigned dockRightId = 0;
 	unsigned dockDownId = 0;
 
 	// Panels
 	std::vector<Panel*> panels;
 	PanelAbout panelAbout;
-	PanelOptions panelOperations;
+	PanelInspector panelInspector;
 	PanelConsole panelConsole;
-	PanelResource panelResource;
+	PanelResource panelResource = PanelResource();
+
+	std::vector<Panel*> panelsResource;
+	
 
 	// ImGui parameters
 	const ImVec4 titleColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);

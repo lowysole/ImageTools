@@ -37,22 +37,21 @@ void PanelConsole::DrawPanel() {
 		}
 		ImGui::EndChild();
 
-		ImGui::Separator();
-
-		// Command-line
-		bool reclaimFocus = false;
-		char inputBuf[256] = {0};
-		ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-		if (ImGui::InputText("Input", inputBuf, IM_ARRAYSIZE(inputBuf), inputTextFlags, &ExecuteCommand)) {
-			logger->logString += "$FFB86CFF # ";
-			logger->logString += inputBuf;
-			logger->logString += "\n";
-			reclaimFocus = true;
-		}
-		ImGui::SetItemDefaultFocus();
-		if (reclaimFocus) {
-			ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
-		}
+		//ImGui::Separator();
+		//// Command-line
+		//bool reclaimFocus = false;
+		//char inputBuf[256] = {0};
+		//ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
+		//if (ImGui::InputText("Input", inputBuf, IM_ARRAYSIZE(inputBuf), inputTextFlags, &ExecuteCommand)) {
+		//	logger->logString += "$FFB86CFF # ";
+		//	logger->logString += inputBuf;
+		//	logger->logString += "\n";
+		//	reclaimFocus = true;
+		//}
+		//ImGui::SetItemDefaultFocus();
+		//if (reclaimFocus) {
+		//	ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
+		//}
 	}
 	ImGui::End();
 

@@ -6,23 +6,35 @@
 #include "Utils/Logging.h"
 #include "Utils/FileSystem.h"
 
+#include <string>
+
+Resource::Resource(PanelResource* _panelResource) {
+	panelResource = _panelResource;
+}
+
 bool Resource::ReadImage(const char* _filePath) {
+	//if (!cv::haveImageReader("C:\Users\lowys\Pictures\Mems\image.png")) {
+	//	LOG("Cannot open this file format")
+	//	filePath = "";
+	//	return false;
+	//}
+
+	//resourceData = cv::imread(name.str());
 	filePath = _filePath;
-	resourceName = GetFileNameNoExtension(GetFileName(filePath));
+	resourceName = GetFileName(_filePath);
+	panelResource->SetName(resourceName.c_str());
 
-	if (!cv::haveImageReader(filePath)) {
-		LOG("Cannot open this file format")
-		return false;
-	}
+	LOG("Image loaded: %s", resourceName.c_str());
 
-	resourceData = cv::imread(filePath);
-
-	LOG("Image loaded: %s", GetFileName(filePath));
 	return true;
 }
 
-const char* Resource::GetResourceName() {
-	return resourceName;
+const char* Resource::GetResourceFilePath() const {
+	return filePath.c_str();
+}
+
+const char* Resource::GetResourceName() const {
+	return resourceName.c_str();
 }
 
 cv::Mat* Resource::GetResourceData() {
