@@ -15,6 +15,8 @@ public:
 
 	bool ReadImage(const char* filePath);
 
+	bool HasResource() const;
+
 	const char* GetResourceFilePath() const;
 	const char* GetResourceName() const;
 	cv::Mat* GetResourceData();
@@ -24,5 +26,7 @@ private:
 	std::string resourceName = "";
 	cv::Mat resourceData;
 	PanelResource* panelResource;
+
+	bool hasResource = false;
 
 };

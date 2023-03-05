@@ -9,7 +9,6 @@
 #include "Utils/portable-file-dialogs.h"
 
 #include "imgui.h"
-#include "float2.h"
 #include "IconsFontAwesome5.h"
 
 #include "Utils/Leaks.h"

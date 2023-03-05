@@ -8,7 +8,6 @@
 
 #include "GL/glew.h"
 #include "SDL.h"
-#include "float2.h"
 #include "imgui_internal.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
@@ -37,6 +36,7 @@ bool ModuleEditor::Init() {
 		io.ConfigDockingTransparentPayload = true;
 	}
 
+	// Set ImGui Visual configs
 	SetImGuiTheme();
 
 	// Set Panels
@@ -73,7 +73,7 @@ UpdateStatus ModuleEditor::PreUpdate() {
 }
 
 UpdateStatus ModuleEditor::Update() {
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	// Main Menu bar
 	ImGui::BeginMainMenuBar();
@@ -223,12 +223,10 @@ void ModuleEditor::CreatePanelResource(PanelResourceType resourceType) {
 	if (resourceType == PanelResourceType::IMAGE) {
 		sprintf_s(name, "<empty_%d>", panelsResource.size() + 1);
 		panelsResource.push_back(new PanelResource(name, resourceType));
-	}	
-	else if (resourceType == PanelResourceType::COMPARE_IMAGE) {
+	} else if (resourceType == PanelResourceType::COMPARE_IMAGE) {
 		sprintf_s(name, "Compare_%d", panelsResource.size() + 1);
 		panelsResource.push_back(new PanelResource(name, resourceType));
 	}
-		
 }
 
 void ModuleEditor::SetImGuiTheme() {

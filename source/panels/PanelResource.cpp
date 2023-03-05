@@ -7,6 +7,7 @@
 #include "Utils/Logging.h"
 
 #include "imgui.h"
+#include "imgui_internal.h"
 #include "IconsFontAwesome5.h"
 
 #include "Utils/Leaks.h"
@@ -30,16 +31,19 @@ void PanelResource::DrawPanel() {
 			App->editor->panelInspector.SetPanelResourceSelected(this);
 		}
 
-		switch (panelResourceType) {
-		case PanelResourceType::NONE:
-			DrawPanelDefault();
-			break;
-		case PanelResourceType::IMAGE:
-			DrawPanelImage();
-			break;
-		case PanelResourceType::COMPARE_IMAGE:
-			DrawPanelCompare();
-			break;
+		ImGuiWindow* window = ImGui::GetCurrentWindowRead();
+		if (!window->DockIsActive || window->DockTabIsVisible) {
+			switch (panelResourceType) {
+			case PanelResourceType::NONE:
+				DrawPanelDefault();
+				break;
+			case PanelResourceType::IMAGE:
+				DrawPanelImage();
+				break;
+			case PanelResourceType::COMPARE_IMAGE:
+				DrawPanelCompare();
+				break;
+			}
 		}
 
 		ImGui::End();
@@ -68,6 +72,12 @@ void PanelResource::DrawPanelDefault() {
 }
 
 void PanelResource::DrawPanelImage() {
+	ImGui::SetNextWindowPos(ImVec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + 30));
+	ImGui::SetNextWindowCollapsed(true, ImGuiCond_Appearing);
+	ImGui::Begin("Info", NULL, ImGuiWindowFlags_NoMove);
+	ImGui::SetWindowFontScale(0.9f);
+	ImGui::End();
+	ImGui::Text("Welcome to Image!");
 	//ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 	//if (ImGui::BeginTable("##table1", 2, ImGuiTableFlags_Resizable)) {
 	//	DrawImageTable("Image 1");
@@ -78,6 +88,7 @@ void PanelResource::DrawPanelImage() {
 }
 
 void PanelResource::DrawPanelCompare() {
+	ImGui::Text("Welcome to Compare!");
 	//ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 	//if (ImGui::BeginTable("##table2", 2, ImGuiTableFlags_Resizable)) {
 	//	DrawImageTable("Image 1");

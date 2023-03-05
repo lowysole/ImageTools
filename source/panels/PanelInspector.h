@@ -3,6 +3,7 @@
 #include "Panels/Panel.h"
 
 class PanelResource;
+
 class PanelInspector : public Panel {
 public:
 	PanelInspector();
