@@ -20,6 +20,8 @@ int main() {
 	// Logging
 	logger = new Logger();
 
+	LOG("Welcome to ImageTools!");
+
 	// App Loop
 	int mainReturn = EXIT_FAILURE;
 	MainState state = MainState::CREATION;

@@ -12,7 +12,12 @@ void Logger::Log(const char file[], int line, const char* format, ...) {
 	va_start(ap, format);
 	vsprintf_s(tmpString, 4096, format, ap);
 	va_end(ap);
+
+#if _DEBUG
 	sprintf_s(tmpString2, 4096, "%s(%d) : %s\n", file, line, tmpString);
+#else
+	sprintf_s(tmpString2, 4096, "%s\n", tmpString);
+#endif
 	OutputDebugString(tmpString2);
 	logMessageQueue.push(tmpString2);
 	logMessageQueueMutex.unlock();

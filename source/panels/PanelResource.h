@@ -16,11 +16,11 @@ public:
 
 	PanelResource();
 	PanelResource(const char* _resourceName, PanelResourceType _panelResourceType);
+	~PanelResource();
 
 	void DrawPanel();
 
 	Resource* GetResource() const;
-	void SetResource(Resource* resource);
 
 	PanelResourceType GetPanelResourceType() const;
 
@@ -35,5 +35,4 @@ private:
 	PanelResourceType panelResourceType;
 
 	Resource* resource = nullptr;
-	bool hasResource = false;
 };

@@ -145,7 +145,7 @@ UpdateStatus ModuleEditor::Update() {
 		dockMainId = dockSpaceId;
 
 		dockRightId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_Right, 0.2f, nullptr, &dockMainId);
-		dockDownId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_Down, 0.3f, nullptr, &dockMainId);
+		dockDownId = ImGui::DockBuilderSplitNode(dockMainId, ImGuiDir_Down, 0.1f, nullptr, &dockMainId);
 	}
 
 	ImGui::SetNextWindowPos(viewport->WorkPos);

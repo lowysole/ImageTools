@@ -3,18 +3,15 @@
 #include "Globals.h"
 #include "Application.h"
 #include "Modules/ModuleWindow.h"
+#include "Resources/Resource.h"
 #include "Utils/Logging.h"
 
 #include "SDL.h"
 #include "GL/glew.h"
+#include "opencv2/core.hpp"
 
 bool ModuleRender::Init() {
-	LOG("Creating Renderer context");
-
 	context = SDL_GL_CreateContext(App->window->window);
-
-	GLenum err = glewInit();
-	LOG("Using Glew %s", glewGetString(GLEW_VERSION));
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);

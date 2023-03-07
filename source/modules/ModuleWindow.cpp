@@ -11,8 +11,6 @@
 #include "Utils/Leaks.h"
 
 bool ModuleWindow::Init() {
-	LOG("Init SDL window & surface");
-
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		return false;

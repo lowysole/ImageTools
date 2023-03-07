@@ -63,6 +63,167 @@
     <ClInclude Include="libs\imgui\imstb_textedit.h" />
     <ClInclude Include="libs\imgui\imstb_truetype.h" />
     <ClInclude Include="libs\math\float3.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\core.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\affine.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\async.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\base.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\bindings_utils.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\bufferpool.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\check.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\core.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\core_c.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda.inl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\block.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\border_interpolate.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\color.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\common.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\datamov_utils.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\detail\color_detail.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\detail\reduce.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\detail\reduce_key_val.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\detail\transform_detail.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\detail\type_traits_detail.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\detail\vec_distance_detail.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\dynamic_smem.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\emulation.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\filters.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\funcattrib.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\functional.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\limits.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\reduce.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\saturate_cast.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\scan.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\simd_functions.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\transform.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\type_traits.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\utility.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\vec_distance.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\vec_math.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\vec_traits.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\warp.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\warp_reduce.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda\warp_shuffle.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda_stream_accessor.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cuda_types.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cvdef.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cvstd.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cvstd.inl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cvstd_wrapper.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cv_cpu_dispatch.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\cv_cpu_helper.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\detail\async_promise.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\detail\dispatch_helper.impl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\detail\exception_ptr.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\directx.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\dualquaternion.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\dualquaternion.inl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\eigen.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\fast_math.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\hal.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\interface.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_avx.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_avx512.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_cpp.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_forward.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_lasx.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_msa.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_neon.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_rvv.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_rvv071.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_rvv_scalable.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_sse.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_sse_em.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_vsx.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\intrin_wasm.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\msa_macros.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\hal\simd_utils.impl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\llapi\llapi.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\mat.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\mat.inl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\matx.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\neon_utils.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\ocl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\ocl_genbase.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\ocl_defs.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\opencl_info.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\opencl_svm.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\autogenerated\opencl_clblas.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\autogenerated\opencl_clfft.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\autogenerated\opencl_core.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\autogenerated\opencl_core_wrappers.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\autogenerated\opencl_gl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\autogenerated\opencl_gl_wrappers.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\opencl_clblas.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\opencl_clfft.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\opencl_core.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\opencl_core_wrappers.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\opencl_gl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\opencl_gl_wrappers.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\opencl_svm_20.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\opencl_svm_definitions.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opencl\runtime\opencl_svm_hsa_extension.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\opengl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\openvx\ovx_defs.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\operations.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\optim.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\ovx.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\parallel\backend\parallel_for.openmp.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\parallel\backend\parallel_for.tbb.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\parallel\parallel_backend.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\persistence.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\private.cuda.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\private.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\private\cv_cpu_include_simd_declarations.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\quaternion.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\quaternion.inl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\saturate.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\simd_intrinsics.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\softfloat.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\sse_utils.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\traits.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\types.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\types_c.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utility.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\allocator_stats.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\allocator_stats.impl.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\buffer_area.private.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\configuration.private.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\filesystem.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\filesystem.private.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\fp_control.private.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\fp_control_utils.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\instrumentation.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\lock.private.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\logger.defines.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\logger.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\logtag.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\plugin_loader.private.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\tls.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\trace.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\utils\trace.private.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\va_intel.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\version.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\core\vsx_utils.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\cvconfig.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgcodecs.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgcodecs\imgcodecs.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgcodecs\imgcodecs_c.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgcodecs\ios.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgcodecs\legacy\constants_c.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgcodecs\macosx.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgproc.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgproc\bindings.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgproc\detail\gcgraph.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgproc\hal\hal.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgproc\hal\interface.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgproc\imgproc.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgproc\imgproc_c.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgproc\segmentation.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\imgproc\types_c.h" />
+    <ClInclude Include="libs\openCV\include\opencv2\opencv.hpp" />
+    <ClInclude Include="libs\openCV\include\opencv2\opencv_modules.hpp" />
     <ClInclude Include="libs\SDL\include\begin_code.h" />
     <ClInclude Include="libs\SDL\include\close_code.h" />
     <ClInclude Include="libs\SDL\include\SDL.h" />
@@ -175,14 +336,23 @@
     <None Include="imgui.ini" />
     <None Include="LICENSE" />
     <None Include="opencv_core470.dll" />
+    <None Include="opencv_core470d.dll" />
     <None Include="opencv_imgcodecs470.dll" />
+    <None Include="opencv_imgcodecs470d.dll" />
     <None Include="opencv_imgproc470.dll" />
+    <None Include="opencv_imgproc470d.dll" />
     <None Include="README.md" />
     <None Include="SDL2.dll" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\glew-2.1.0\lib\glew32.lib" />
     <Library Include="libs\glew-2.1.0\lib\glew32s.lib" />
+    <Library Include="libs\openCV\lib\Debug\opencv_core470d.lib" />
+    <Library Include="libs\openCV\lib\Debug\opencv_imgcodecs470d.lib" />
+    <Library Include="libs\openCV\lib\Debug\opencv_imgproc470d.lib" />
+    <Library Include="libs\openCV\lib\Release\opencv_core470.lib" />
+    <Library Include="libs\openCV\lib\Release\opencv_imgcodecs470.lib" />
+    <Library Include="libs\openCV\lib\Release\opencv_imgproc470.lib" />
     <Library Include="libs\SDL\lib\SDL2.lib" />
     <Library Include="libs\SDL\lib\SDL2main.lib" />
     <Library Include="libs\SDL\lib\SDL2test.lib" />
@@ -284,8 +454,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470.lib;opencv_imgcodecs470.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470d.lib;opencv_imgcodecs470d.lib;opencv_imgproc470d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AssemblyDebug>
       </AssemblyDebug>
     </Link>
@@ -307,8 +477,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470.lib;opencv_imgcodecs470.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470.lib;opencv_imgcodecs470.lib;opencv_imgproc470.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AssemblyDebug>
       </AssemblyDebug>
     </Link>
@@ -326,8 +496,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470.lib;opencv_imgcodecs470.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470d.lib;opencv_imgcodecs470d.lib;opencv_imgproc470d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AssemblyDebug>
       </AssemblyDebug>
     </Link>
@@ -349,8 +519,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470.lib;opencv_imgcodecs470.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)/Libs\glew-2.1.0\lib\;$(ProjectDir)/Libs\SDL\lib\;$(ProjectDir)/Libs\openCV\lib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opencv_core470.lib;opencv_imgcodecs470.lib;opencv_imgproc470.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AssemblyDebug>
       </AssemblyDebug>
     </Link>

@@ -49,7 +49,7 @@
 #  error base.hpp header must be compiled as C++
 #endif
 
-#include "opencv2/opencv_modules.hpp"
+//#include "opencv2/opencv_modules.hpp"
 
 #include <climits>
 #include <algorithm>

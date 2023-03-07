@@ -4,6 +4,8 @@
 
 #include "float2.h"
 
+class Resource;
+
 class ModuleRender : public Module {
 public:
 	bool Init() override;

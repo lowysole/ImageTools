@@ -3528,6 +3528,7 @@ CV_32SC1 and the same size as src.
 the parameter is forced to 3 because a \f$3\times 3\f$ mask gives the same result as \f$5\times
 5\f$ or any larger aperture.
 @param labelType Type of the label array to build, see #DistanceTransformLabelTypes.
+
  */
 CV_EXPORTS_AS(distanceTransformWithLabels) void distanceTransform( InputArray src, OutputArray dst,
                                      OutputArray labels, int distanceType, int maskSize,

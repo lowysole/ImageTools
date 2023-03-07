@@ -23,8 +23,7 @@ void PanelConsole::DrawPanel() {
 	std::string windowName = std::string(ICON_FK_TERMINAL "  ") + GetName();
 	if (ImGui::Begin(windowName.c_str(), &UpdateEnabled())) {
 		// Output
-		const float footerHeightToReserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
-		ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footerHeightToReserve), false, ImGuiWindowFlags_HorizontalScrollbar);
+		ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
 
 		if (ImGui::BeginPopupContextWindow()) {
 			if (ImGui::Selectable("Clear")) logger->logString.clear();
@@ -36,22 +35,6 @@ void PanelConsole::DrawPanel() {
 			ImGui::SetScrollHereY(1.0f);
 		}
 		ImGui::EndChild();
-
-		//ImGui::Separator();
-		//// Command-line
-		//bool reclaimFocus = false;
-		//char inputBuf[256] = {0};
-		//ImGuiInputTextFlags inputTextFlags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-		//if (ImGui::InputText("Input", inputBuf, IM_ARRAYSIZE(inputBuf), inputTextFlags, &ExecuteCommand)) {
-		//	logger->logString += "$FFB86CFF # ";
-		//	logger->logString += inputBuf;
-		//	logger->logString += "\n";
-		//	reclaimFocus = true;
-		//}
-		//ImGui::SetItemDefaultFocus();
-		//if (reclaimFocus) {
-		//	ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
-		//}
 	}
 	ImGui::End();
 

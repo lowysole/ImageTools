@@ -12,6 +12,7 @@ class Resource {
 public:
 
 	Resource(PanelResource* _panelResource);
+	~Resource();
 
 	bool ReadImage(const char* filePath);
 
@@ -19,12 +20,17 @@ public:
 
 	const char* GetResourceFilePath() const;
 	const char* GetResourceName() const;
+
+	unsigned GetResourceID() const;
 	cv::Mat* GetResourceData();
+
 
 private:
 	std::string filePath = "";
 	std::string resourceName = "";
-	cv::Mat resourceData;
+
+	unsigned resourceID = 0;
+	cv::Mat* resourceData = nullptr;
 	PanelResource* panelResource;
 
 	bool hasResource = false;
