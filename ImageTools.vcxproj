@@ -29,6 +29,7 @@
     <ClCompile Include="libs\imgui\imgui_widgets.cpp" />
     <ClCompile Include="libs\math\float2.cpp" />
     <ClCompile Include="libs\math\float3.cpp" />
+    <ClCompile Include="source\Modules\ModuleTexture.cpp" />
     <ClCompile Include="source\Panels\PanelResource.cpp" />
     <ClCompile Include="source\Resources\Resource.cpp" />
     <ClCompile Include="source\Panels\PanelInspector.cpp" />
@@ -308,6 +309,7 @@
     <ClInclude Include="libs\SDL\include\SDL_version.h" />
     <ClInclude Include="libs\SDL\include\SDL_video.h" />
     <ClInclude Include="libs\SDL\include\SDL_vulkan.h" />
+    <ClInclude Include="source\Modules\ModuleTexture.h" />
     <ClInclude Include="source\Panels\PanelResource.h" />
     <ClInclude Include="source\Resources\Resource.h" />
     <ClInclude Include="source\Panels\PanelInspector.h" />

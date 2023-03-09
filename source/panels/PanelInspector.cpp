@@ -30,7 +30,7 @@ void PanelInspector::DrawPanel() {
 			DrawPanelInspectorImage();
 			break;
 		case PanelResourceType::COMPARE_IMAGE:
-			DrawPanelInspectorCompare();
+			DrawPanelInspectorImage();
 			break;
 		}
 
@@ -46,21 +46,53 @@ void PanelInspector::DrawPanelInspectorImage() {
 	Resource* resource = panelResourceSelected->GetResource();
 
 	if (ImGui::BeginTabBar("##image_tabs", ImGuiTabBarFlags_None)) {
-		if (ImGui::BeginTabItem("Load")) {
+		if (ImGui::BeginTabItem("Options")) {
 			ImGui::NewLine();
 			char name[50];
-			strncpy_s(name,resource->GetResourceName(), 50);
-			ImGui::Text("Image:");
-			ImGui::SameLine();
+			strncpy_s(name, resource->GetResourceName(0), 50);
+			ImGui::Text("Image");
 			ImGui::InputText("##image_1", name, IM_ARRAYSIZE(name), ImGuiInputTextFlags_ReadOnly);
 			if (ImGui::Button("Load Image")) {
 				auto f = pfd::open_file("Choose files to read", pfd::path::home(), {"Image Files (.png .jpeg)", "*.png *.jpeg", "All Files", "*"}, pfd::opt::none).result();
-				resource->ReadImage(f[0].c_str());
+				resource->ReadImage(f[0].c_str(), 0);
 			}
+			ImGui::NewLine();
+
+			if (panelResourceSelected->GetPanelResourceType() == PanelResourceType::COMPARE_IMAGE) {
+				char name[50];
+				strncpy_s(name, resource->GetResourceName(1), 50);
+				ImGui::Text("Image to compare");
+				ImGui::InputText("##image_2", name, IM_ARRAYSIZE(name), ImGuiInputTextFlags_ReadOnly);
+				if (ImGui::Button("Load Image##image_2")) {
+					auto f = pfd::open_file("Choose files to read", pfd::path::home(), {"Image Files (.png .jpeg)", "*.png *.jpeg", "All Files", "*"}, pfd::opt::none).result();
+					resource->ReadImage(f[0].c_str(), 1);
+				}
+				ImGui::NewLine();
+			}
+
+			ImGui::Separator();
+			if (resource->HasResource(0) || resource->HasResource(1)) {
+				ImGui::NewLine();
+				ImGui::TextColored(App->editor->titleColor, "Channels");
+				bool changed = false;
+				changed |= ImGui::Checkbox("R", &chR);
+				ImGui::SameLine();
+				changed |= ImGui::Checkbox("G", &chG);
+				ImGui::SameLine();
+				changed |= ImGui::Checkbox("B", &chB);
+				ImGui::SameLine();
+				changed |= ImGui::Checkbox("A", &chA);
+
+				if (changed) {
+					// TODO : Apply modification
+				}
+			}
+
 
 			ImGui::EndTabItem();
 		}
-		if (ImGui::BeginTabItem("Options")) {
+		if (ImGui::BeginTabItem("Modify")) {
+			ImGui::Text("In progress...");
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();

@@ -73,7 +73,7 @@ UpdateStatus ModuleEditor::PreUpdate() {
 }
 
 UpdateStatus ModuleEditor::Update() {
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 
 	// Main Menu bar
 	ImGui::BeginMainMenuBar();
@@ -173,6 +173,7 @@ UpdateStatus ModuleEditor::Update() {
 		if (panel->GetEnabled()) {
 			panel->DrawPanel();
 		} else {
+			panel->DeletePanel();
 			RELEASE(panel);
 			panelsResource.erase(panelsResource.begin() + i);
 		}

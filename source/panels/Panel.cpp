@@ -7,6 +7,9 @@ Panel::Panel(const char* _name, bool _enabled)
 
 void Panel::DrawPanel() {}
 
+void Panel::DeletePanel() {
+}
+
 const char* Panel::GetName() const {
 	return name.c_str();
 }

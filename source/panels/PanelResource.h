@@ -4,6 +4,8 @@
 
 class Resource;
 
+typedef unsigned uint;
+
 enum class PanelResourceType {
 	NONE,
 	IMAGE,
@@ -24,12 +26,14 @@ public:
 
 	PanelResourceType GetPanelResourceType() const;
 
+	void DeletePanel() override;
+
 private:
 
 	void DrawPanelDefault();
 	void DrawPanelImage();
 	void DrawPanelCompare();
-	void DrawImageTable(const char* name);
+	void DrawImageTable(const char* name, uint id);
 
 private:
 	PanelResourceType panelResourceType;

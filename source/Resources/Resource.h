@@ -14,25 +14,29 @@ public:
 	Resource(PanelResource* _panelResource);
 	~Resource();
 
-	bool ReadImage(const char* filePath);
+	bool ReadImage(const char* filePath, uint id);
 
-	bool HasResource() const;
+	bool HasResource(uint id) const;
 
-	const char* GetResourceFilePath() const;
-	const char* GetResourceName() const;
+	const char* GetResourceFilePath(uint id) const;
+	const char* GetResourceName(uint id) const;
 
-	unsigned GetResourceID() const;
-	cv::Mat* GetResourceData();
+	unsigned GetResourceID(uint id) const;
+	cv::Mat* GetResourceData(uint id);
+
+	void DeleteResource(uint id);
 
 
 private:
-	std::string filePath = "";
-	std::string resourceName = "";
+	std::string filePath[3] = {"", "", ""};
+	std::string resourceName[3] = {"", "", ""};
 
-	unsigned resourceID = 0;
-	cv::Mat* resourceData = nullptr;
+	uint resourceID[3] = {0, 0, 0};
+	cv::Mat* resourceData[3] = {nullptr, nullptr, nullptr};
+	std::vector<cv::Mat*> resourceDataChannels;
+
 	PanelResource* panelResource;
 
-	bool hasResource = false;
+	bool hasResource[3] = {false, false, false};
 
 };

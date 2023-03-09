@@ -19,4 +19,10 @@ public:
 
 private:
 	PanelResource* panelResourceSelected = nullptr;
+
+	// Channels
+	bool chR = true;
+	bool chG = true;
+	bool chB = true;
+	bool chA = true;
 };
