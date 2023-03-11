@@ -21,8 +21,5 @@ private:
 	PanelResource* panelResourceSelected = nullptr;
 
 	// Channels
-	bool chR = true;
-	bool chG = true;
-	bool chB = true;
-	bool chA = true;
+	bool channels[4] = {true, true, true, true};
 };

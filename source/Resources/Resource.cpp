@@ -14,18 +14,29 @@
 
 Resource::Resource(PanelResource* _panelResource) {
 	panelResource = _panelResource;
+
 	resourceData[0] = new cv::Mat();
-	resourceData[1] = new cv::Mat();
-	resourceData[2] = new cv::Mat();
+	resourceDataChannels[0] = new cv::Mat();
+
+	if (panelResource->GetPanelResourceType() == PanelResourceType::COMPARE_IMAGE) {
+		resourceData[1] = new cv::Mat();
+		resourceData[2] = new cv::Mat();
+
+		resourceDataChannels[1] = new cv::Mat();
+		resourceDataChannels[2] = new cv::Mat();
+	}
 }
 
 Resource::~Resource() {
 	DeleteResource(0);
-	DeleteResource(1);
-	DeleteResource(2);
+
+	if (panelResource->GetPanelResourceType() == PanelResourceType::COMPARE_IMAGE) {
+		DeleteResource(1);
+		DeleteResource(2);
+	}
 }
 
-bool Resource::ReadImage(const char* _filePath, uint id) {
+bool Resource::ReadImage(const char* _filePath, const uint id) {
 	if (!cv::haveImageReader(_filePath)) {
 		LOG("Cannot open this file format")
 		filePath[id] = "";
@@ -50,20 +61,6 @@ bool Resource::ReadImage(const char* _filePath, uint id) {
 		break;
 	}
 
-	// Split channels data
-	//std::vector<cv::Mat> channelsData;
-	//cv::split(*resourceData[id], channelsData);
-
-	//for (int i = 0; i < resourceData[id]->channels(); ++i) {
-	//	resourceDataChannels.push_back(new cv::Mat());
-	//}
-
-	//int i = 0;
-	//for (auto channel : resourceDataChannels) {
-	//	*channel = channelsData[i].clone();
-	//	++i;
-	//}
-
 	filePath[id] = _filePath;
 	resourceName[id] = GetFileName(_filePath);
 	hasResource[id] = true;
@@ -79,33 +76,50 @@ bool Resource::ReadImage(const char* _filePath, uint id) {
 	return true;
 }
 
-bool Resource::HasResource(uint id) const {
+void Resource::UpdateImage(const uint id, const bool* channels, const uint numChannels) {
+
+	std::vector<cv::Mat> channelsData;
+	cv::split(*resourceData[id], channelsData);
+	for (int i = 0; i < numChannels; ++i) {
+		if (!channels[i]) {
+			channelsData[i] = cv::Mat::zeros(resourceData[id]->rows, resourceData[id]->cols, CV_8UC1);
+		}
+	}
+
+	cv::merge(channelsData, *resourceDataChannels[id]);
+
+	ModuleTexture::UpdateTexture(resourceDataChannels[id], resourceID[id]);
+}
+
+bool Resource::HasResource(const uint id) const {
 	return hasResource[id];
 }
 
-const char* Resource::GetResourceFilePath(uint id) const {
+const char* Resource::GetResourceFilePath(const uint id) const {
 	return filePath[id].c_str();
 }
 
-const char* Resource::GetResourceName(uint id) const {
+const char* Resource::GetResourceName(const uint id) const {
 	return resourceName[id].c_str();
 }
 
-unsigned Resource::GetResourceID(uint id) const {
+unsigned Resource::GetResourceID(const uint id) const {
 	return resourceID[id];
 }
 
-cv::Mat* Resource::GetResourceData(uint id) {
+cv::Mat* Resource::GetResourceData(const uint id) const {
 	return resourceData[id];
 }
 
-void Resource::DeleteResource(uint id) {
+bool* Resource::UpdateActiveChannels() {
+	return &activeChannels[0];
+}
+
+void Resource::DeleteResource(const uint id) {
 	ModuleTexture::DeleteTexture(resourceID[id]);
 	RELEASE(resourceData[id]);
+	RELEASE(resourceDataChannels[id]);
 
-	for (auto channel : resourceDataChannels) {
-		RELEASE(channel)
-	}
-
+	hasResource[id] = false;
 	LOG("Image closed: %s", resourceName[id].c_str());
 }

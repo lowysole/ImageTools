@@ -29,6 +29,18 @@ uint ModuleTexture::CreateTexture(cv::Mat* resource) {
 	return texture;
 }
 
+void ModuleTexture::UpdateTexture(cv::Mat* resource, uint textureId) {
+	GLenum format = GetTextureFormat(resource->channels());
+	GLenum type = GetTextureType(resource->type());
+
+	if ((format || type) == 0) {
+		return;
+	}
+
+	glBindTexture(GL_TEXTURE_2D, textureId);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, resource->cols, resource->rows, 0, format, type, resource->data);
+}
+
 uint ModuleTexture::GetTextureFormat(int channels) {
 	switch (channels) {
 	case 1:

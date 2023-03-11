@@ -58,7 +58,7 @@ void PanelInspector::DrawPanelInspectorImage() {
 			}
 			ImGui::NewLine();
 
-			if (panelResourceSelected->GetPanelResourceType() == PanelResourceType::COMPARE_IMAGE) {
+			if (panelResourceSelected->GetPanelResourceType() == PanelResourceType::COMPARE_IMAGE && resource->HasResource(0)) {
 				char name[50];
 				strncpy_s(name, resource->GetResourceName(1), 50);
 				ImGui::Text("Image to compare");
@@ -74,20 +74,42 @@ void PanelInspector::DrawPanelInspectorImage() {
 			if (resource->HasResource(0) || resource->HasResource(1)) {
 				ImGui::NewLine();
 				ImGui::TextColored(App->editor->titleColor, "Channels");
+				uint numChannels = resource->GetResourceData(0)->channels();
+				bool* channels = resource->UpdateActiveChannels();
 				bool changed = false;
-				changed |= ImGui::Checkbox("R", &chR);
-				ImGui::SameLine();
-				changed |= ImGui::Checkbox("G", &chG);
-				ImGui::SameLine();
-				changed |= ImGui::Checkbox("B", &chB);
-				ImGui::SameLine();
-				changed |= ImGui::Checkbox("A", &chA);
+				switch (numChannels) {
+				case 1:
+					changed |= ImGui::Checkbox("R", &channels[0]);
+					break;
+				case 2:
+					changed |= ImGui::Checkbox("R", &channels[0]);
+					ImGui::SameLine();
+					changed |= ImGui::Checkbox("G", &channels[1]);
+					break;
+				case 3:
+					changed |= ImGui::Checkbox("R", &channels[0]);
+					ImGui::SameLine();
+					changed |= ImGui::Checkbox("G", &channels[1]);
+					ImGui::SameLine();
+					changed |= ImGui::Checkbox("B", &channels[2]);
+					break;
+				case 4:
+					changed |= ImGui::Checkbox("R", &channels[0]);
+					ImGui::SameLine();
+					changed |= ImGui::Checkbox("G", &channels[1]);
+					ImGui::SameLine();
+					changed |= ImGui::Checkbox("B", &channels[2]);
+					ImGui::SameLine();
+					changed |= ImGui::Checkbox("A", &channels[3]);
+					break;
+				default:
+					break;
+				}
 
 				if (changed) {
-					// TODO : Apply modification
+					resource->UpdateImage(0, &channels[0], numChannels);
 				}
 			}
-
 
 			ImGui::EndTabItem();
 		}
