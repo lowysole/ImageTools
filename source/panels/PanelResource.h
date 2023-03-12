@@ -4,7 +4,12 @@
 
 #include "float2.h"
 
+#include <vector>
+#include <string>
+
 class Resource;
+enum class ErrorLogType;
+enum class ErrorLogNumber;
 
 typedef unsigned uint;
 
@@ -22,9 +27,13 @@ public:
 
 	void DrawPanel();
 
-	Resource* GetResource() const;
-
 	PanelResourceType GetPanelResourceType() const;
+	Resource* GetResource() const;
+	bool GetHasChanged() const;
+	void SetHasChanged(bool _hasChanged);
+
+	void AddErrorLog(ErrorLogType errorType, ErrorLogNumber errorNumber);
+	void EmptyErrorLogs();
 
 	void DeletePanel() override;
 
@@ -39,6 +48,12 @@ private:
 
 	Resource* resource = nullptr;
 
+	bool hasChanged = false;
+
 	// ImGui Panel parameters
 	float2 infoTableSize = {200.0f, 20.0f};
+
+	bool errorLogsOpened = false;
+	std::vector<std::string> errorLogs;
+
 };

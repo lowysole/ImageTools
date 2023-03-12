@@ -16,7 +16,10 @@ public:
 
 	bool ReadImage(const char* filePath, uint id);
 
-	void UpdateImage(const uint id, const bool* channels, const uint numChannels);
+	void UpdateImage(const uint id);
+	void UpdateImageChannels(const uint id, const bool* channels, const uint numChannels);
+
+	bool GenerateImageDiff();
 
 	bool HasResource(const uint id) const;
 

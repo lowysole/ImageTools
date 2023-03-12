@@ -80,6 +80,7 @@ UpdateStatus ModuleEditor::Update() {
 	// Main Menu bar
 	ImGui::BeginMainMenuBar();
 	if (ImGui::BeginMenu("File")) {
+		ImGui::Separator();
 		if (ImGui::MenuItem("Quit")) {
 			modalToOpen = Modal::QUIT;
 		}
@@ -92,7 +93,7 @@ UpdateStatus ModuleEditor::Update() {
 		ImGui::EndMenu();
 	}
 
-	if (ImGui::BeginMenu("Actions")) {
+	if (ImGui::BeginMenu("Resources")) {
 		if (ImGui::MenuItem("Add Image")) {
 			CreatePanelResource(PanelResourceType::IMAGE);
 		}
@@ -113,24 +114,25 @@ UpdateStatus ModuleEditor::Update() {
 	// Modals
 	switch (modalToOpen) {
 	case Modal::QUIT:
-		ImGui::OpenPopup("Quit");
+		ImGui::OpenPopup("Quit##modal_quit");
 		break;
 	}
-	modalToOpen = Modal::NONE;
+	
 
 	// Quit Modal
-	ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiCond_FirstUseEver);
-	if (ImGui::BeginPopupModal("Quit##quit", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar)) {
+	ImGui::SetNextWindowSize(ImVec2(300, 120));
+	if (ImGui::BeginPopupModal("Quit##modal_quit", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar)) {
 		ImGui::Text("Do you really want to quit?");
 		ImGui::NewLine();
 		ImGui::NewLine();
-		ImGui::SameLine(ImGui::GetWindowWidth() - 140);
-		if (ImGui::Button("Quit", ImVec2(60, 20))) {
+		ImGui::SameLine(ImGui::GetWindowWidth() - 150);
+		if (ImGui::Button("Quit", ImVec2(65, 25))) {
 			return UpdateStatus::STOP;
 		}
-		ImGui::SameLine(ImGui::GetWindowWidth() - 70);
-		if (ImGui::Button("Cancel", ImVec2(60, 20))) {
+		ImGui::SameLine(ImGui::GetWindowWidth() - 80);
+		if (ImGui::Button("Cancel", ImVec2(65, 25))) {
 			ImGui::CloseCurrentPopup();
+			modalToOpen = Modal::NONE;
 		}
 		ImGui::EndPopup();
 	}

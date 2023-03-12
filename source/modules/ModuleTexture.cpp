@@ -9,7 +9,7 @@ typedef unsigned uint;
 uint ModuleTexture::CreateTexture(cv::Mat* resource) {
 
 	GLenum format = GetTextureFormat(resource->channels());
-	GLenum type = GetTextureType(resource->type());
+	GLenum type = GetTextureGLType(resource->type());
 
 	if ((format || type) == 0) {
 		return 0;
@@ -31,7 +31,7 @@ uint ModuleTexture::CreateTexture(cv::Mat* resource) {
 
 void ModuleTexture::UpdateTexture(cv::Mat* resource, uint textureId) {
 	GLenum format = GetTextureFormat(resource->channels());
-	GLenum type = GetTextureType(resource->type());
+	GLenum type = GetTextureGLType(resource->type());
 
 	if ((format || type) == 0) {
 		return;
@@ -39,6 +39,10 @@ void ModuleTexture::UpdateTexture(cv::Mat* resource, uint textureId) {
 
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glTexImage2D(GL_TEXTURE_2D, 0, format, resource->cols, resource->rows, 0, format, type, resource->data);
+}
+
+void ModuleTexture::GenerateDiffImage(cv::Mat* resOriginal, cv::Mat* resCompare, cv::Mat* resOutput) {
+	cv::absdiff(*resOriginal, *resCompare, *resOutput);
 }
 
 uint ModuleTexture::GetTextureFormat(int channels) {
@@ -71,9 +75,8 @@ std::string ModuleTexture::GetTextureFormatToString(int channels) {
 	return "";
 }
 
-uint ModuleTexture::GetTextureType(int type) {
+uint ModuleTexture::GetTextureGLType(int type) {
 	uchar depth = type & CV_MAT_DEPTH_MASK;
-	uchar chans = 1 + (type >> CV_CN_SHIFT);
 
 	switch (depth) {
 	case CV_8U:
@@ -95,9 +98,12 @@ uint ModuleTexture::GetTextureType(int type) {
 	return 0;
 }
 
+uchar ModuleTexture::GetTextureType(int type) {
+	return type & CV_MAT_DEPTH_MASK;
+}
+
 std::string ModuleTexture::GetTextureTypeToString(int type) {
 	uchar depth = type & CV_MAT_DEPTH_MASK;
-	uchar chans = 1 + (type >> CV_CN_SHIFT);
 
 	switch (depth) {
 	case CV_8U:

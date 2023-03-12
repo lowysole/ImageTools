@@ -5,6 +5,7 @@
 #include "Modules/ModuleTexture.h"
 #include "Resources/Resource.h"
 #include "Panels/PanelInspector.h"
+#include "Utils/ErrorLogs.h"
 #include "Utils/Logging.h"
 
 #include "GL/glew.h"
@@ -14,6 +15,7 @@
 #include "opencv2/core/mat.hpp"
 
 #include "Utils/Leaks.h"
+
 
 PanelResource::PanelResource()
 	: Panel("Welcome to ImageTools", true) {
@@ -33,7 +35,6 @@ PanelResource::~PanelResource() {
 void PanelResource::DrawPanel() {
 	ImGui::SetNextWindowDockID(App->editor->dockMainId, ImGuiCond_FirstUseEver);
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 	std::string windowName = std::string(ICON_FA_IMAGE "  ") + GetName();
 	if (ImGui::Begin(windowName.c_str(), &UpdateEnabled()), ImGuiWindowFlags_AlwaysAutoResize) {
 		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows)) {
@@ -57,15 +58,42 @@ void PanelResource::DrawPanel() {
 
 		ImGui::End();
 	}
-	ImGui::PopStyleColor(2);
+	ImGui::PopStyleColor();
 }
 
 Resource* PanelResource::GetResource() const {
 	return resource;
 }
 
+bool PanelResource::GetHasChanged() const {
+	return hasChanged;
+}
+
+void PanelResource::SetHasChanged(bool _hasChanged) {
+	hasChanged = _hasChanged;
+}
+
 PanelResourceType PanelResource::GetPanelResourceType() const {
 	return panelResourceType;
+}
+
+void PanelResource::AddErrorLog(ErrorLogType errorType, ErrorLogNumber errorNumber) {
+	
+	std::string error;
+	if (errorType == ErrorLogType::ERROR) {
+		LOG("[Error]: %s", ErrorLogToString(errorNumber));
+		error = std::string(ICON_FA_EXCLAMATION_TRIANGLE "  ") + ErrorLogToString(errorNumber);
+
+	} else if (errorType == ErrorLogType::WARNING) {
+		LOG("[Warning]: %s", ErrorLogToString(errorNumber));
+		error = std::string(ICON_FA_INFO "  ") + ErrorLogToString(errorNumber);
+	}
+
+	errorLogs.push_back(error);
+}
+
+void PanelResource::EmptyErrorLogs() {
+	errorLogs.clear();
 }
 
 void PanelResource::DeletePanel() {
@@ -82,12 +110,12 @@ void PanelResource::DrawPanelImage() {
 	ImGui::SetNextWindowSize(infoTableSize);
 	ImGui::SetNextWindowCollapsed(true, ImGuiCond_Appearing);
 
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.8f));
 	ImGui::Begin("Info", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 	ImGui::SetWindowFontScale(0.9f);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 	if (ImGui::BeginTable("##table", 2, ImGuiTableFlags_SizingFixedSame)) {
-
 		ImGui::TableSetupColumn("##col1", ImGuiTableColumnFlags_WidthFixed, 160);
 		bool hasResource = resource->HasResource(0);
 		const char* path = hasResource ? resource->GetResourceFilePath(0) : "";
@@ -106,6 +134,7 @@ void PanelResource::DrawPanelImage() {
 	}
 
 	ImGui::PopStyleVar();
+	ImGui::PopStyleColor();
 	ImGui::End();
 
 	// Image
@@ -127,12 +156,12 @@ void PanelResource::DrawPanelCompare() {
 	ImGui::SetNextWindowSize(infoTableSize);
 	ImGui::SetNextWindowCollapsed(true, ImGuiCond_Appearing);
 
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.8f));
 	ImGui::Begin("Info", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 	ImGui::SetWindowFontScale(0.9f);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 	if (ImGui::BeginTable("##table", 2, ImGuiTableFlags_SizingFixedSame)) {
-
 		ImGui::TableSetupColumn("##col1", ImGuiTableColumnFlags_WidthFixed, 160);
 		bool hasResource = resource->HasResource(0);
 		const char* path = hasResource ? resource->GetResourceFilePath(0) : "";
@@ -155,6 +184,7 @@ void PanelResource::DrawPanelCompare() {
 	}
 
 	ImGui::PopStyleVar();
+	ImGui::PopStyleColor();
 	ImGui::End();
 
 	// Image
@@ -168,13 +198,34 @@ void PanelResource::DrawPanelCompare() {
 
 		float image1pos = paddingX;
 		ImGui::SetCursorPos(float2(image1pos, PaddingY));
-		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(resource->GetResourceID(0))), ImVec2(width, height));
+		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(resource->GetResourceID(0))), ImVec2(width, height), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1, 1, 1, 1), ImVec4(0.5, 0.5, 0.5, 0.5));
 		float image2pos = 2 * paddingX + width;
 		ImGui::SetCursorPos(float2(image2pos, PaddingY));
-		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(resource->GetResourceID(1))), ImVec2(width, height));
+		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(resource->GetResourceID(1))), ImVec2(width, height), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1, 1, 1, 1), ImVec4(0.5, 0.5, 0.5, 0.5));
 		float image3pos = 3 * paddingX + 2 * width;
 		ImGui::SetCursorPos(float2(image3pos, PaddingY));
-		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(resource->GetResourceID(2))), ImVec2(width, height));
+		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(resource->GetResourceID(2))), ImVec2(width, height), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1, 1, 1, 1), ImVec4(0.5, 0.5, 0.5, 0.5));
+	}
+
+	float2 size = ImGui::GetWindowSize();
+	float2 pos = ImGui::GetWindowPos();
+	if (errorLogs.size() > 0) {
+		if (!errorLogsOpened) {
+			ImGui::SetNextWindowPos(ImVec2(pos.x, size.y));
+		}
+		ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.8f));
+		errorLogsOpened = ImGui::Begin("Warnings", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+		ImGui::SetWindowFontScale(0.9f);
+
+		if (errorLogsOpened) {
+			ImGui::SetWindowPos(ImVec2(pos.x, size.y - 50));
+			for (auto error : errorLogs) {
+				ImGui::Text(error.c_str());
+			}
+		}
+
+		ImGui::PopStyleColor();
+		ImGui::End();
 	}
 }
 
@@ -226,6 +277,5 @@ void PanelResource::DrawImageTable(const char* name, uint id) {
 		ImGui::NextColumn();
 
 		ImGui::TreePop();
-
 	}
 }

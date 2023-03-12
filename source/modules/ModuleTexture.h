@@ -1,6 +1,6 @@
 #pragma once
 
-#include "opencv2/core/mat.hpp"
+#include "opencv2/core.hpp"
 
 #include <string>
 
@@ -9,9 +9,12 @@ public:
 
 	static uint CreateTexture(cv::Mat* resource);
 	static void UpdateTexture(cv::Mat* resource, uint textureId);
+	static void GenerateDiffImage(cv::Mat* resOriginal, cv::Mat* resCompare, cv::Mat* resOutput);
+
 	static uint GetTextureFormat(int channels);
 	static std::string GetTextureFormatToString(int channels);
-	static uint GetTextureType(int type);
+	static uint GetTextureGLType(int type);
+	static uchar GetTextureType(int type);
 	static std::string GetTextureTypeToString(int type);
 
 	

@@ -1,6 +1,7 @@
 #include "Resource.h"
 
 #include "Modules/ModuleTexture.h"
+#include "Utils/ErrorLogs.h"
 #include "Utils/FileSystem.h"
 #include "Utils/Logging.h"
 
@@ -24,6 +25,8 @@ Resource::Resource(PanelResource* _panelResource) {
 
 		resourceDataChannels[1] = new cv::Mat();
 		resourceDataChannels[2] = new cv::Mat();
+
+		resourceName[2] = panelResource->GetName();
 	}
 }
 
@@ -64,6 +67,7 @@ bool Resource::ReadImage(const char* _filePath, const uint id) {
 	filePath[id] = _filePath;
 	resourceName[id] = GetFileName(_filePath);
 	hasResource[id] = true;
+	panelResource->SetHasChanged(true);
 
 	if (panelResource->GetPanelResourceType() == PanelResourceType::IMAGE) {
 		panelResource->SetName(resourceName[id].c_str());
@@ -71,13 +75,24 @@ bool Resource::ReadImage(const char* _filePath, const uint id) {
 
 	resourceID[id] = ModuleTexture::CreateTexture(resourceData[id]);
 
+	panelResource->EmptyErrorLogs();
 	LOG("Image loaded: %s", resourceName[id].c_str());
 
 	return true;
 }
 
-void Resource::UpdateImage(const uint id, const bool* channels, const uint numChannels) {
+void Resource::UpdateImage(const uint id) {
+	if (!resourceData[id]) return;
 
+	hasResource[id] = true;
+
+	if (!resourceID[id]) {
+		resourceID[id] = ModuleTexture::CreateTexture(resourceData[id]);
+	}
+	UpdateImageChannels(id, activeChannels, resourceData[id]->channels());
+}
+
+void Resource::UpdateImageChannels(const uint id, const bool* channels, const uint numChannels) {
 	if (!hasResource[id]) return;
 
 	std::vector<cv::Mat> channelsData;
@@ -91,6 +106,34 @@ void Resource::UpdateImage(const uint id, const bool* channels, const uint numCh
 	cv::merge(channelsData, *resourceDataChannels[id]);
 
 	ModuleTexture::UpdateTexture(resourceDataChannels[id], resourceID[id]);
+}
+
+bool Resource::GenerateImageDiff() {
+	bool hasError = false;
+	if (resourceData[0]->size() != resourceData[1]->size()) {
+		panelResource->AddErrorLog(ErrorLogType::ERROR, ErrorLogNumber::ERROR_1);
+		hasError = true;
+	}
+
+	if (resourceData[0]->channels() != resourceData[1]->channels()) {
+		panelResource->AddErrorLog(ErrorLogType::ERROR, ErrorLogNumber::ERROR_2);
+		hasError = true;
+	}
+
+	if (ModuleTexture::GetTextureType(resourceData[0]->type()) != ModuleTexture::GetTextureType(resourceData[1]->type())) {
+		panelResource->AddErrorLog(ErrorLogType::WARNING, ErrorLogNumber::WARNING_1);
+	}
+
+	if (hasError) {
+		DeleteResource(2);
+		resourceData[2] = new cv::Mat();
+		resourceDataChannels[2] = new cv::Mat();
+		return false;
+	}
+
+	ModuleTexture::GenerateDiffImage(GetResourceData(0), GetResourceData(1), GetResourceData(2));
+	UpdateImage(2);
+	return true;
 }
 
 bool Resource::HasResource(const uint id) const {

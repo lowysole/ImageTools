@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleEditor.h"
+#include "Modules/ModuleTexture.h"
 #include "Resources/Resource.h"
 #include "Panels/PanelResource.h"
 
@@ -32,7 +33,6 @@ void PanelInspector::DrawPanel() {
 		default:
 			DrawPanelInspectorDefault();
 		}
-
 
 		ImGui::End();
 	}
@@ -69,6 +69,11 @@ void PanelInspector::DrawPanelInspectorImage() {
 					resource->ReadImage(f[0].c_str(), 1);
 				}
 				ImGui::NewLine();
+			}
+
+			if (panelResourceSelected->GetHasChanged() && resource->HasResource(0) && resource->HasResource(1)) {
+				resource->GenerateImageDiff();
+				panelResourceSelected->SetHasChanged(false);
 			}
 
 			ImGui::Separator();
@@ -108,11 +113,11 @@ void PanelInspector::DrawPanelInspectorImage() {
 				}
 
 				if (changed) {
-					resource->UpdateImage(0, &channels[0], numChannels);
+					resource->UpdateImageChannels(0, &channels[0], numChannels);
 
 					if (panelType == PanelResourceType::COMPARE_IMAGE) {
-						resource->UpdateImage(1, &channels[0], numChannels);
-						resource->UpdateImage(2, &channels[0], numChannels);
+						resource->UpdateImageChannels(1, &channels[0], numChannels);
+						resource->UpdateImageChannels(2, &channels[0], numChannels);
 					}
 				}
 			}
