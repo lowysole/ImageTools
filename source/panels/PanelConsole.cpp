@@ -14,7 +14,7 @@ static int ExecuteCommand(ImGuiInputTextCallbackData* data) {
 }
 
 PanelConsole::PanelConsole()
-	: Panel("Console", true) {
+	: Panel("Console", false) {
 }
 
 void PanelConsole::DrawPanel() {

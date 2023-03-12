@@ -78,6 +78,8 @@ bool Resource::ReadImage(const char* _filePath, const uint id) {
 
 void Resource::UpdateImage(const uint id, const bool* channels, const uint numChannels) {
 
+	if (!hasResource[id]) return;
+
 	std::vector<cv::Mat> channelsData;
 	cv::split(*resourceData[id], channelsData);
 	for (int i = 0; i < numChannels; ++i) {

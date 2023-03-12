@@ -23,27 +23,28 @@ void PanelInspector::DrawPanel() {
 	std::string windowName = std::string(ICON_FA_IMAGE "  ") + GetName();
 	if (ImGui::Begin(windowName.c_str(), &UpdateEnabled()), ImGuiWindowFlags_AlwaysAutoResize) {
 		switch (panelResourceSelected->GetPanelResourceType()) {
-		case PanelResourceType::NONE:
-			DrawPanelInspectorDefault();
-			break;
 		case PanelResourceType::IMAGE:
 			DrawPanelInspectorImage();
 			break;
 		case PanelResourceType::COMPARE_IMAGE:
 			DrawPanelInspectorImage();
 			break;
+		default:
+			DrawPanelInspectorDefault();
 		}
+
 
 		ImGui::End();
 	}
 }
 
 void PanelInspector::DrawPanelInspectorDefault() {
-	ImGui::Text("PanelInspectorDefault");
+	ImGui::Text("Select one resource");
 }
 
 void PanelInspector::DrawPanelInspectorImage() {
 	Resource* resource = panelResourceSelected->GetResource();
+	PanelResourceType panelType = panelResourceSelected->GetPanelResourceType();
 
 	if (ImGui::BeginTabBar("##image_tabs", ImGuiTabBarFlags_None)) {
 		if (ImGui::BeginTabItem("Options")) {
@@ -58,7 +59,7 @@ void PanelInspector::DrawPanelInspectorImage() {
 			}
 			ImGui::NewLine();
 
-			if (panelResourceSelected->GetPanelResourceType() == PanelResourceType::COMPARE_IMAGE && resource->HasResource(0)) {
+			if (panelType == PanelResourceType::COMPARE_IMAGE && resource->HasResource(0)) {
 				char name[50];
 				strncpy_s(name, resource->GetResourceName(1), 50);
 				ImGui::Text("Image to compare");
@@ -108,6 +109,11 @@ void PanelInspector::DrawPanelInspectorImage() {
 
 				if (changed) {
 					resource->UpdateImage(0, &channels[0], numChannels);
+
+					if (panelType == PanelResourceType::COMPARE_IMAGE) {
+						resource->UpdateImage(1, &channels[0], numChannels);
+						resource->UpdateImage(2, &channels[0], numChannels);
+					}
 				}
 			}
 
