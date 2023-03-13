@@ -16,7 +16,6 @@
 
 #include "Utils/Leaks.h"
 
-
 PanelResource::PanelResource()
 	: Panel("Welcome to ImageTools", true) {
 	panelResourceType = PanelResourceType::NONE;
@@ -78,7 +77,6 @@ PanelResourceType PanelResource::GetPanelResourceType() const {
 }
 
 void PanelResource::AddErrorLog(ErrorLogType errorType, ErrorLogNumber errorNumber) {
-	
 	std::string error;
 	if (errorType == ErrorLogType::ERROR) {
 		LOG("[Error]: %s", ErrorLogToString(errorNumber));
@@ -151,6 +149,7 @@ void PanelResource::DrawPanelImage() {
 }
 
 void PanelResource::DrawPanelCompare() {
+	// Info window
 	ImGui::SetNextWindowPos(ImVec2(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + 30));
 
 	ImGui::SetNextWindowSize(infoTableSize);
@@ -187,7 +186,7 @@ void PanelResource::DrawPanelCompare() {
 	ImGui::PopStyleColor();
 	ImGui::End();
 
-	// Image
+	// Image render
 	if (resource->HasResource(0)) {
 		cv::Mat* image = resource->GetResourceData(0);
 		ImVec2 size = ImGui::GetWindowSize();
@@ -207,6 +206,7 @@ void PanelResource::DrawPanelCompare() {
 		ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(resource->GetResourceID(2))), ImVec2(width, height), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1, 1, 1, 1), ImVec4(0.5, 0.5, 0.5, 0.5));
 	}
 
+	// Warnings Window
 	float2 size = ImGui::GetWindowSize();
 	float2 pos = ImGui::GetWindowPos();
 	if (errorLogs.size() > 0) {
@@ -221,6 +221,33 @@ void PanelResource::DrawPanelCompare() {
 			ImGui::SetWindowPos(ImVec2(pos.x, size.y - 50));
 			for (auto error : errorLogs) {
 				ImGui::Text(error.c_str());
+			}
+		}
+
+		ImGui::PopStyleColor();
+		ImGui::End();
+	}
+
+	// Error Metric Window
+	if (resource->HasResource(2)) {
+		float2 size = ImGui::GetWindowSize();
+		float2 pos = ImGui::GetWindowPos();
+
+		ImGui::SetNextWindowSize(ImVec2(150, 75));
+		if (!errorMetricsOpened) {
+			ImGui::SetNextWindowPos(ImVec2(size.x - 150, size.y));
+		}
+
+		ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.8f));
+		errorMetricsOpened = ImGui::Begin("Error Metrics", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+		ImGui::SetWindowFontScale(0.9f);
+
+		if (errorMetricsOpened) {
+			ImGui::SetWindowPos(ImVec2(size.x - 150, size.y - 50));
+			if (resource->errorPSN) {
+				ImGui::Text("PSNR (dB): %0.2f", resource->errorPSN);
+			} else {
+				ImGui::Text("PSNR (dB): inf");
 			}
 		}
 

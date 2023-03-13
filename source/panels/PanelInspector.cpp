@@ -55,7 +55,9 @@ void PanelInspector::DrawPanelInspectorImage() {
 			ImGui::InputText("##image_1", name, IM_ARRAYSIZE(name), ImGuiInputTextFlags_ReadOnly);
 			if (ImGui::Button("Load Image")) {
 				auto f = pfd::open_file("Choose files to read", pfd::path::home(), {"Image Files (.png .jpeg)", "*.png *.jpeg", "All Files", "*"}, pfd::opt::none).result();
-				resource->ReadImage(f[0].c_str(), 0);
+				if (!f.empty()) {
+					resource->ReadImage(f[0].c_str(), 0);
+				}
 			}
 			ImGui::NewLine();
 
@@ -66,7 +68,9 @@ void PanelInspector::DrawPanelInspectorImage() {
 				ImGui::InputText("##image_2", name, IM_ARRAYSIZE(name), ImGuiInputTextFlags_ReadOnly);
 				if (ImGui::Button("Load Image##image_2")) {
 					auto f = pfd::open_file("Choose files to read", pfd::path::home(), {"Image Files (.png .jpeg)", "*.png *.jpeg", "All Files", "*"}, pfd::opt::none).result();
-					resource->ReadImage(f[0].c_str(), 1);
+					if (!f.empty()) {
+						resource->ReadImage(f[0].c_str(), 1);
+					}
 				}
 				ImGui::NewLine();
 			}
@@ -118,6 +122,33 @@ void PanelInspector::DrawPanelInspectorImage() {
 					if (panelType == PanelResourceType::COMPARE_IMAGE) {
 						resource->UpdateImageChannels(1, &channels[0], numChannels);
 						resource->UpdateImageChannels(2, &channels[0], numChannels);
+					}
+				}
+			}
+
+			if (resource->HasResource(2)) {
+				ImGui::Separator();
+				ImGui::Text("Compare Options");
+				const char* comboCompareTypes[] = {"Bitmask", "Foreground"};
+				const char* comboCopareTypesCurrent = comboCompareTypes[static_cast<int>(resource->compareType)];
+				if (ImGui::BeginCombo("Type", comboCopareTypesCurrent)) {
+					for (int n = 0; n < IM_ARRAYSIZE(comboCompareTypes); ++n) {
+						bool isSelected = (comboCopareTypesCurrent == comboCompareTypes[n]);
+						if (ImGui::Selectable(comboCompareTypes[n], isSelected)) {
+
+							resource->compareType = static_cast<CompareType>(n);							
+							resource->GenerateImageDiff();
+						}
+						if (isSelected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+
+				if (resource->compareType == CompareType::BITMASK) {
+					if (ImGui::DragFloat("Threshold", &resource->bitmaskThreshold, 0.1f, 0.0, 255.0)) {
+						resource->GenerateImageDiff();
 					}
 				}
 			}

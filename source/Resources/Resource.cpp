@@ -81,6 +81,25 @@ bool Resource::ReadImage(const char* _filePath, const uint id) {
 	return true;
 }
 
+bool Resource::SaveImage(const char* _filePath, uint id) {
+	if (!hasResource[id]) return false;
+
+	cv::Mat image;
+	switch (resourceData[id]->channels()) {
+	case 3:
+		cv::cvtColor(*resourceData[id], image, cv::COLOR_RGB2BGR);
+		break;
+	case 4:
+		cv::cvtColor(*resourceData[id], image, cv::COLOR_RGBA2BGRA);
+		break;
+	default:
+		break;
+	}
+
+	bool saved = cv::imwrite(_filePath, image);
+	return saved;
+}
+
 void Resource::UpdateImage(const uint id) {
 	if (!resourceData[id]) return;
 
@@ -97,7 +116,7 @@ void Resource::UpdateImageChannels(const uint id, const bool* channels, const ui
 
 	std::vector<cv::Mat> channelsData;
 	cv::split(*resourceData[id], channelsData);
-	for (int i = 0; i < numChannels; ++i) {
+	for (uint i = 0; i < numChannels; ++i) {
 		if (!channels[i]) {
 			channelsData[i] = cv::Mat::zeros(resourceData[id]->rows, resourceData[id]->cols, CV_8UC1);
 		}
@@ -131,8 +150,11 @@ bool Resource::GenerateImageDiff() {
 		return false;
 	}
 
-	ModuleTexture::GenerateDiffImage(GetResourceData(0), GetResourceData(1), GetResourceData(2));
+	ModuleTexture::GenerateDiffImage(GetResourceData(0), GetResourceData(1), GetResourceData(2), compareType, bitmaskThreshold);
 	UpdateImage(2);
+
+	errorPSN = ModuleTexture::CalculatePSN(GetResourceData(0), GetResourceData(1));
+
 	return true;
 }
 

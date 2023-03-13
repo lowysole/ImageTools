@@ -7,7 +7,6 @@
 typedef unsigned uint;
 
 uint ModuleTexture::CreateTexture(cv::Mat* resource) {
-
 	GLenum format = GetTextureFormat(resource->channels());
 	GLenum type = GetTextureGLType(resource->type());
 
@@ -41,8 +40,36 @@ void ModuleTexture::UpdateTexture(cv::Mat* resource, uint textureId) {
 	glTexImage2D(GL_TEXTURE_2D, 0, format, resource->cols, resource->rows, 0, format, type, resource->data);
 }
 
-void ModuleTexture::GenerateDiffImage(cv::Mat* resOriginal, cv::Mat* resCompare, cv::Mat* resOutput) {
+void ModuleTexture::GenerateDiffImage(cv::Mat* resOriginal, cv::Mat* resCompare, cv::Mat* resOutput, CompareType compareType, float threshold) {
 	cv::absdiff(*resOriginal, *resCompare, *resOutput);
+
+	if (compareType == CompareType::BITMASK) {
+		for (int j = 0; j < resOutput->rows; ++j) {
+			for (int i = 0; i < resOutput->cols; ++i) {
+				cv::Vec3b pix = resOutput->at<cv::Vec3b>(j, i);
+				int val = (pix[0] + pix[1] + pix[2]);
+				if (val > threshold) {
+					resOutput->at<cv::Vec3b>(j, i) = cv::Vec3b(255, 255, 255);
+				}
+			}
+		}
+	}
+}
+
+double ModuleTexture::CalculatePSN(cv::Mat* resOriginal, cv::Mat* resCompare) {
+	cv::Mat s1;
+	absdiff(*resOriginal, *resCompare, s1);		 // |I1 - I2|
+	s1.convertTo(s1, CV_32F);					 // cannot make a square on 8 bits
+	s1 = s1.mul(s1);							 // |I1 - I2|^2
+	cv::Scalar s = sum(s1);						 // sum elements per channel
+	double sse = s.val[0] + s.val[1] + s.val[2]; // sum channels
+	if (sse <= 1e-10)							 // for small values return zero
+		return 0;
+	else {
+		double mse = sse / (double) (resOriginal->channels() * resOriginal->total());
+		double psnr = 10.0 * log10((255 * 255) / mse);
+		return psnr;
+	}
 }
 
 uint ModuleTexture::GetTextureFormat(int channels) {
@@ -125,9 +152,9 @@ std::string ModuleTexture::GetTextureTypeToString(int type) {
 	return "";
 }
 
-void ModuleTexture::DeleteTexture(uint &glTexture) {
-		if (glTexture) {
-			glDeleteTextures(1, &glTexture);
-			glTexture = 0;
-		}
+void ModuleTexture::DeleteTexture(uint& glTexture) {
+	if (glTexture) {
+		glDeleteTextures(1, &glTexture);
+		glTexture = 0;
+	}
 }

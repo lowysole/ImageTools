@@ -15,6 +15,7 @@ class float2;
 
 enum class Modal {
 	NONE,
+	EXPORT,
 	QUIT
 };
 

@@ -5,6 +5,9 @@
 #include "Modules/ModuleWindow.h"
 #include "Modules/ModuleRender.h"
 #include "Panels/PanelResource.h"
+#include "Resources/Resource.h"
+#include "Utils/FileSystem.h"
+#include "Utils/portable-file-dialogs.h"
 
 #include "GL/glew.h"
 #include "SDL.h"
@@ -75,12 +78,20 @@ UpdateStatus ModuleEditor::PreUpdate() {
 }
 
 UpdateStatus ModuleEditor::Update() {
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	// Main Menu bar
 	ImGui::BeginMainMenuBar();
 	if (ImGui::BeginMenu("File")) {
+		// Export
+		bool hasResource = panelInspector.GetPanelResourceSelected()->GetPanelResourceType() != PanelResourceType::NONE;
+		ImGui::BeginDisabled(!hasResource);
+		if (ImGui::MenuItem(std::string(ICON_FA_FILE_EXPORT "    Export...").c_str())) {
+			modalToOpen = Modal::EXPORT;
+		}
+		ImGui::EndDisabled();
 		ImGui::Separator();
+		// Quit
 		if (ImGui::MenuItem("Quit")) {
 			modalToOpen = Modal::QUIT;
 		}
@@ -113,9 +124,44 @@ UpdateStatus ModuleEditor::Update() {
 
 	// Modals
 	switch (modalToOpen) {
+	case Modal::EXPORT:
+		ImGui::OpenPopup("Export##modal_export");
+		break;
 	case Modal::QUIT:
 		ImGui::OpenPopup("Quit##modal_quit");
 		break;
+	}
+
+	// Export Modal
+	ImGui::SetNextWindowSize(ImVec2(400, 150));
+	if (ImGui::BeginPopupModal("Export##modal_export", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar)) {
+		PanelResource *panelSelected = panelInspector.GetPanelResourceSelected();
+		uint id = panelSelected->GetPanelResourceType() == PanelResourceType::IMAGE ? 1 : 2;
+		Resource* resource = panelSelected->GetResource();
+		const char* directoryPath = GetDirPath(resource->GetResourceFilePath(1)).c_str();
+		const char* fileName = GetFileNameNoExtension(resource->GetResourceName(id)).c_str();
+
+		const char* comboCompareTypes[] = {".png", ".jpeg"};
+		int format = 0;
+		ImGui::Combo("Format file", &format, comboCompareTypes, IM_ARRAYSIZE(comboCompareTypes));
+
+		ImGui::NewLine();
+		ImGui::NewLine();
+		ImGui::SameLine(ImGui::GetWindowWidth() - 150);
+		if (ImGui::Button("Save", ImVec2(65, 25))) {
+			auto f = pfd::save_file("Choose file to save", directoryPath + pfd::path::separator() + fileName + comboCompareTypes[format], {"All Files", "*"}, pfd::opt::force_overwrite).result();
+			if (!f.empty()) {
+				resource->SaveImage(f.c_str(), id);
+			}
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine(ImGui::GetWindowWidth() - 80);
+		if (ImGui::Button("Cancel", ImVec2(65, 25))) {
+			ImGui::CloseCurrentPopup();
+		}
+
+		modalToOpen = Modal::NONE;
+		ImGui::EndPopup();
 	}
 	
 

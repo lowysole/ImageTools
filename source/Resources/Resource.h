@@ -1,20 +1,21 @@
 #pragma once
 
+#include "Modules/ModuleTexture.h"
+#include "Panels/PanelResource.h"
 
 #include "opencv2/core/mat.hpp"
-#include "Panels/PanelResource.h"
 
 #include <string>
 
+enum class CompareType;
+
 class Resource {
-
-
 public:
-
 	Resource(PanelResource* _panelResource);
 	~Resource();
 
 	bool ReadImage(const char* filePath, uint id);
+	bool SaveImage(const char* filePath, uint id);
 
 	void UpdateImage(const uint id);
 	void UpdateImageChannels(const uint id, const bool* channels, const uint numChannels);
@@ -33,7 +34,6 @@ public:
 
 	void DeleteResource(uint id);
 
-
 private:
 	std::string filePath[3] = {"", "", ""};
 	std::string resourceName[3] = {"", "", ""};
@@ -46,5 +46,11 @@ private:
 
 	bool hasResource[3] = {false, false, false};
 
+public:
 
+	// Panel parameters
+	CompareType compareType = CompareType::BITMASK;
+	float bitmaskThreshold = 10.f;
+
+	double errorPSN = 0.0;
 };

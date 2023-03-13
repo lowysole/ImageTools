@@ -56,4 +56,6 @@ private:
 	bool errorLogsOpened = false;
 	std::vector<std::string> errorLogs;
 
+	bool errorMetricsOpened = false;
+
 };
