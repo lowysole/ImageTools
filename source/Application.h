@@ -26,7 +26,7 @@ public:
 	ModuleEditor* editor = nullptr;
 	ModuleRender* render = nullptr;
 
-	char appName[20] = "MathLib";
+	char appName[20] = "ImageTools";
 
 private:
 	std::vector<Module*> modules;
